@@ -1,0 +1,109 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f5f2ec;
+  color: #333;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+}
+
+.container {
+  width: min(90%, 700px);
+  margin: 0 auto;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.small-title {
+  margin: 0 0 15px;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: #999;
+}
+
+h1 {
+  margin: 0;
+  font-size: 48px;
+  font-weight: normal;
+  letter-spacing: 8px;
+}
+
+.catchcopy {
+  margin-top: 30px;
+  font-size: 18px;
+  line-height: 2;
+  color: #666;
+}
+
+.gacha-area {
+  margin-top: 70px;
+}
+
+.question {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 25px;
+}
+
+.result {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.result span {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.result p {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.8;
+}
+
+.draw-button {
+  border: none;
+  background: #333;
+  color: white;
+  padding: 18px 50px;
+  border-radius: 50px;
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.draw-button:hover {
+  opacity: 0.75;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+
+  .container {
+    padding-top: 60px;
+  }
+
+  h1 {
+    font-size: 38px;
+    letter-spacing: 5px;
+  }
+
+  .catchcopy {
+    font-size: 16px;
+  }
+
+  .result p {
+    font-size: 20px;
+  }
+
+}
