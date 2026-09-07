@@ -327,6 +327,13 @@ function drawDo() {
   selectedDo =
     dos[randomIndex];
 
+  // 引いたDOをブラウザに保存
+localStorage.setItem(
+  "selectedDo",
+  JSON.stringify(selectedDo)
+);
+
+
 
   // カード番号
   const number =
