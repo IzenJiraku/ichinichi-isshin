@@ -1,109 +1,643 @@
+/* ========================================
+   基本設定
+======================================== */
+
 * {
   box-sizing: border-box;
 }
 
+
 body {
   margin: 0;
   min-height: 100vh;
+
   background: #f5f2ec;
-  color: #333;
-  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  color: #252525;
+
+  font-family:
+    "Yu Mincho",
+    "Hiragino Mincho ProN",
+    "Noto Serif JP",
+    serif;
 }
 
+
+/* ========================================
+   全体
+======================================== */
+
 .container {
-  width: min(90%, 700px);
+  width: min(1100px, 92%);
   margin: 0 auto;
-  padding: 80px 20px;
+
+  padding: 70px 20px 40px;
+}
+
+
+/* ========================================
+   ヘッダー
+======================================== */
+
+.header {
   text-align: center;
 }
 
+
 .small-title {
-  margin: 0 0 15px;
+  margin: 0 0 14px;
+
   font-family: Arial, sans-serif;
-  font-size: 12px;
-  letter-spacing: 4px;
-  color: #999;
+  font-size: 11px;
+  letter-spacing: 5px;
+
+  color: #888;
 }
+
 
 h1 {
   margin: 0;
-  font-size: 48px;
+
+  font-size: 46px;
   font-weight: normal;
-  letter-spacing: 8px;
+  letter-spacing: 10px;
 }
 
+
+.header-line {
+  width: 45px;
+  height: 1px;
+
+  background: #555;
+
+  margin: 24px auto;
+}
+
+
 .catchcopy {
-  margin-top: 30px;
-  font-size: 18px;
+  margin: 0;
+
+  font-size: 17px;
   line-height: 2;
+
   color: #666;
 }
 
-.gacha-area {
-  margin-top: 70px;
+
+/* ========================================
+   カードエリア
+======================================== */
+
+.draw-area {
+  margin-top: 55px;
+
+  text-align: center;
 }
+
 
 .question {
+  margin: 0 0 25px;
+
   font-size: 14px;
   color: #888;
-  margin-bottom: 25px;
 }
 
-.result {
-  min-height: 180px;
+
+/* ========================================
+   カード
+======================================== */
+
+.card {
+  position: relative;
+
+  width: 340px;
+  height: 480px;
+
+  margin: 0 auto;
+
+  perspective: 1200px;
+}
+
+
+/* 共通 */
+.card-back,
+.card-front {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 18px;
+
+  backface-visibility: hidden;
+
+  transition:
+    transform 0.8s cubic-bezier(.2,.7,.2,1),
+    box-shadow 0.3s ease;
+}
+
+
+/* ========================================
+   カード裏面
+======================================== */
+
+.card-back {
   display: flex;
-  flex-direction: column;
+
   justify-content: center;
   align-items: center;
-  padding: 30px;
-  margin-bottom: 30px;
+
+  background: #314967;
+
+  box-shadow:
+    0 18px 35px rgba(0, 0, 0, 0.12);
+
+  transform: rotateY(0deg);
 }
 
-.result span {
-  font-size: 40px;
-  margin-bottom: 15px;
+
+.card-back-border {
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 12px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+
+  position: relative;
 }
 
-.result p {
+
+.card-back-border::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 12px;
+
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 8px;
+}
+
+
+.card-symbol {
+  font-size: 65px;
+
+  margin-bottom: 20px;
+}
+
+
+.card-back p {
   margin: 0;
-  font-size: 24px;
-  line-height: 1.8;
+
+  font-size: 22px;
+  letter-spacing: 5px;
 }
+
+
+.card-back span {
+  margin-top: 12px;
+
+  font-size: 11px;
+  letter-spacing: 2px;
+
+  opacity: 0.7;
+}
+
+
+/* ========================================
+   カード表面
+======================================== */
+
+.card-front {
+  padding: 24px;
+
+  background: #fffdf8;
+
+  border: 1px solid #e8e3da;
+
+  box-shadow:
+    0 18px 35px rgba(0, 0, 0, 0.12);
+
+  transform: rotateY(180deg);
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* カードを開いた状態 */
+
+.card.is-open .card-back {
+  transform: rotateY(-180deg);
+}
+
+
+.card.is-open .card-front {
+  transform: rotateY(0deg);
+}
+
+
+/* ========================================
+   カード番号
+======================================== */
+
+.card-number {
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  font-family: Georgia, serif;
+
+  font-size: 20px;
+
+  line-height: 1;
+}
+
+
+.card-number span:last-child {
+  margin-top: 3px;
+}
+
+
+.top-number {
+  color: #314967;
+}
+
+
+.bottom-number {
+  align-items: flex-end;
+
+  margin-top: auto;
+
+  color: #314967;
+
+  transform: rotate(180deg);
+}
+
+
+/* ========================================
+   カード中央
+======================================== */
+
+.card-content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px 10px;
+}
+
+
+.category {
+  display: inline-block;
+
+  padding: 5px 16px;
+
+  border-radius: 20px;
+
+  background: #eeeae3;
+
+  color: #777;
+
+  font-size: 11px;
+
+  letter-spacing: 2px;
+}
+
+
+.card-do {
+  margin: 25px 0 0;
+
+  max-width: 280px;
+
+  font-size: 26px;
+  line-height: 1.8;
+
+  text-align: center;
+}
+
+
+/* ========================================
+   カード情報
+======================================== */
+
+.card-info {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 11px 15px;
+
+  padding-top: 18px;
+
+  border-top: 1px dashed #d7d1c7;
+}
+
+
+.info-item {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 11px;
+
+  color: #666;
+
+  text-align: left;
+}
+
+
+.info-icon {
+  width: 18px;
+
+  font-family: Arial, sans-serif;
+
+  color: #777;
+
+  text-align: center;
+}
+
+
+/* ========================================
+   ボタン
+======================================== */
+
+.button-area {
+  margin-top: 35px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+
+button {
+  font-family: inherit;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* DOを引く */
 
 .draw-button {
   border: none;
-  background: #333;
-  color: white;
-  padding: 18px 50px;
+
+  min-width: 240px;
+
+  padding: 17px 35px;
+
   border-radius: 50px;
-  font-family: inherit;
+
+  background: #314967;
+  color: white;
+
   font-size: 16px;
-  cursor: pointer;
-  transition: 0.2s;
+
+  letter-spacing: 2px;
+
+  box-shadow:
+    0 8px 18px rgba(49, 73, 103, 0.2);
 }
 
+
+.draw-button span {
+  margin-right: 8px;
+
+  font-size: 22px;
+}
+
+
 .draw-button:hover {
-  opacity: 0.75;
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 22px rgba(49, 73, 103, 0.25);
+}
+
+
+/* DONE */
+
+.done-button {
+  border: none;
+
+  min-width: 240px;
+
+  padding: 16px 35px;
+
+  border-radius: 50px;
+
+  background: #c95b5b;
+  color: white;
+
+  font-size: 16px;
+
+  letter-spacing: 2px;
+
+  box-shadow:
+    0 8px 18px rgba(201, 91, 91, 0.18);
+}
+
+
+.done-button span {
+  margin-right: 8px;
+
+  font-size: 20px;
+}
+
+
+.done-button:hover:not(:disabled) {
   transform: translateY(-2px);
 }
+
+
+.done-button:disabled {
+  opacity: 0.35;
+
+  cursor: default;
+
+  box-shadow: none;
+}
+
+
+/* もう一度 */
+
+.again-button {
+  border: none;
+
+  background: transparent;
+
+  padding: 5px 10px;
+
+  color: #777;
+
+  font-size: 13px;
+
+  text-decoration: underline;
+
+  text-underline-offset: 4px;
+}
+
+
+.again-button:hover {
+  color: #222;
+}
+
+
+/* ========================================
+   メッセージ
+======================================== */
+
+.message {
+  min-height: 24px;
+
+  margin: 20px 0 0;
+
+  font-size: 13px;
+
+  color: #777;
+}
+
+
+/* ========================================
+   DONE状態
+======================================== */
+
+.card.is-done .card-front {
+  background: #f2eee7;
+}
+
+
+.card.is-done .card-do {
+  text-decoration: line-through;
+
+  opacity: 0.55;
+}
+
+
+.card.is-done::after {
+  content: "DONE";
+
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform:
+    translate(-50%, -50%)
+    rotate(-12deg);
+
+  padding: 8px 20px;
+
+  border: 2px solid #c95b5b;
+
+  color: #c95b5b;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 22px;
+  font-weight: bold;
+
+  letter-spacing: 4px;
+
+  pointer-events: none;
+}
+
+
+/* ========================================
+   フッター
+======================================== */
+
+footer {
+  margin-top: 80px;
+
+  text-align: center;
+}
+
+
+footer p {
+  margin: 0;
+
+  font-size: 11px;
+
+  color: #aaa;
+
+  letter-spacing: 2px;
+}
+
+
+/* ========================================
+   スマートフォン
+======================================== */
 
 @media (max-width: 600px) {
 
   .container {
-    padding-top: 60px;
+    padding-top: 45px;
   }
+
 
   h1 {
-    font-size: 38px;
-    letter-spacing: 5px;
+    font-size: 37px;
+    letter-spacing: 6px;
   }
+
 
   .catchcopy {
-    font-size: 16px;
+    font-size: 15px;
   }
 
-  .result p {
-    font-size: 20px;
+
+  .draw-area {
+    margin-top: 45px;
+  }
+
+
+  .card {
+    width: min(320px, 88vw);
+    height: min(450px, 125vw);
+  }
+
+
+  .card-do {
+    font-size: 22px;
+  }
+
+
+  .card-info {
+    gap: 9px 8px;
+  }
+
+
+  .info-item {
+    font-size: 10px;
+  }
+
+
+  .draw-button,
+  .done-button {
+    min-width: 220px;
   }
 
 }
