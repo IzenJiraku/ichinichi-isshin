@@ -21,9 +21,6 @@ const formDoEntry = "entry.113286324";
 // HTMLの要素を取得
 // ========================================
 
-const drawButton =
-  document.getElementById("drawButton");
-
 const doneButton =
   document.getElementById("doneButton");
 
@@ -95,8 +92,13 @@ async function loadDos() {
       await fetch(csvUrl);
 
     if (!response.ok) {
-  throw new Error(`HTTP error: ${response.status}`);
-}
+
+      throw new Error(
+        `HTTP error: ${response.status}`
+      );
+
+    }
+
     const text =
       await response.text();
 
@@ -163,6 +165,10 @@ async function loadDos() {
       );
 
     }
+
+
+    message.textContent =
+      "カードをタップしてみて。";
 
 
   } catch (error) {
@@ -373,6 +379,7 @@ function drawDo() {
 
   // 難易度
   if (
+    cardDifficulty &&
     selectedDo.difficulty
   ) {
 
@@ -384,18 +391,17 @@ function drawDo() {
     cardDifficulty.textContent =
       "★".repeat(difficulty);
 
-  } else {
-
-    cardDifficulty.textContent =
-      "---";
-
   }
 
 
   // 一人向き
-  cardSolo.textContent =
-    selectedDo.solo ||
-    "---";
+  if (cardSolo) {
+
+    cardSolo.textContent =
+      selectedDo.solo ||
+      "---";
+
+  }
 
 
   // 場所
@@ -405,16 +411,22 @@ function drawDo() {
 
 
   // 繰り返し
-  cardRepeat.textContent =
-    selectedDo.repeat ||
-    "---";
+  if (cardRepeat) {
+
+    cardRepeat.textContent =
+      selectedDo.repeat ||
+      "---";
+
+  }
 
 
-  // カードを開く
+  // DONE状態を解除
   card.classList.remove(
     "is-done"
   );
 
+
+  // カードを表にする
   card.classList.add(
     "is-open"
   );
@@ -444,7 +456,6 @@ function completeDo() {
   }
 
 
-  // GoogleフォームのURLを作る
   const params =
     new URLSearchParams();
 
@@ -486,30 +497,43 @@ function completeDo() {
 
 function drawAgain() {
 
-  if (dos.length === 0) {
-
-    message.textContent =
-      "DOを読み込んでいます。少し待ってね。";
-
-    return;
-
-  }
-
-
   drawDo();
 
 }
 
 
 // ========================================
-// ボタンイベント
+// カードをタップ
 // ========================================
 
-drawButton.addEventListener(
+card.addEventListener(
   "click",
-  drawDo
+  () => {
+
+    // 裏面のとき
+    if (
+      !card.classList.contains("is-open")
+    ) {
+
+      drawDo();
+
+      return;
+
+    }
+
+
+    // 表面のとき
+    card.classList.remove(
+      "is-open"
+    );
+
+  }
 );
 
+
+// ========================================
+// ボタンイベント
+// ========================================
 
 doneButton.addEventListener(
   "click",
@@ -522,20 +546,7 @@ againButton.addEventListener(
   drawAgain
 );
 
-// ========================================
-// カードをタップして表裏を切り替える
-// ========================================
 
-card.addEventListener("click", () => {
-
-  // まだDOを引いていない場合は何もしない
-  if (!selectedDo) {
-    return;
-  }
-
-  card.classList.toggle("is-open");
-
-});
 // ========================================
 // ページを開いたらDOを読み込む
 // ========================================
