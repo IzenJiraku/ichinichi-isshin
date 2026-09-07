@@ -573,7 +573,17 @@ function completeDo() {
 
 function drawAgain() {
 
-  drawDo();
+  // 保存しているDOを削除
+  localStorage.removeItem("selectedDo");
+
+  // 今のDOをリセット
+  selectedDo = null;
+
+  // カードを裏面に戻す
+  card.classList.remove("is-open");
+
+  // DONEボタンを無効にする
+  doneButton.disabled = true;
 
 }
 
