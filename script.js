@@ -24,9 +24,6 @@ const formDoEntry = "entry.113286324";
 const doneButton =
   document.getElementById("doneButton");
 
-const againButton =
-  document.getElementById("againButton");
-
 const card =
   document.getElementById("card");
 
@@ -647,39 +644,6 @@ function completeDo() {
 }
 
 
-// ========================================
-// リセット
-// ========================================
-
-function resetDo() {
-
-  // 保存したDOを削除
-  localStorage.removeItem(
-    "selectedDo"
-  );
-
-
-  // 現在のDOを削除
-  selectedDo =
-    null;
-
-
-  // カードを裏面に戻す
-  card.classList.remove(
-    "is-open"
-  );
-
-
-  // DONEボタンを無効化
-  doneButton.disabled =
-    true;
-
-
-  console.log(
-    "DOをリセットしました"
-  );
-
-}
 
 
 // ========================================
@@ -731,14 +695,6 @@ doneButton.addEventListener(
 );
 
 
-// ========================================
-// リセットボタン
-// ========================================
-
-againButton.addEventListener(
-  "click",
-  resetDo
-);
 
 
 // ========================================
