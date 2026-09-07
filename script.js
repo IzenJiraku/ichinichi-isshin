@@ -1,3 +1,4 @@
+```js
 // ========================================
 // GoogleスプレッドシートからDOを読み込む
 // ========================================
@@ -29,9 +30,6 @@ const againButton =
 
 const card =
   document.getElementById("card");
-
-const message =
-  document.getElementById("message");
 
 const cardNumber =
   document.getElementById("cardNumber");
@@ -102,10 +100,6 @@ async function loadDos() {
     const text =
       await response.text();
 
-    console.log(
-      "スプレッドシートのデータ取得成功"
-    );
-
     const rows =
       parseCSV(text);
 
@@ -113,10 +107,10 @@ async function loadDos() {
     dos = rows
       .slice(1)
 
-      .filter(
-        row => row[1]
-      )
+      // DOが入力されている行だけ
+      .filter(row => row[1])
 
+      // 「有効」がTRUEのものだけ
       .filter(
         row =>
           String(row[9])
@@ -148,7 +142,7 @@ async function loadDos() {
 
 
     console.log(
-      "読み込んだDO:",
+      "DOの読み込み成功:",
       dos
     );
 
@@ -161,14 +155,10 @@ async function loadDos() {
     if (dos.length === 0) {
 
       throw new Error(
-        "DOが0件です"
+        "有効なDOがありません"
       );
 
     }
-
-
-    message.textContent =
-      "カードをタップしてみて。";
 
 
   } catch (error) {
@@ -177,9 +167,6 @@ async function loadDos() {
       "DOの読み込みに失敗しました:",
       error
     );
-
-    message.textContent =
-      "DOを読み込めませんでした。ページを更新してみてね。";
 
   }
 
@@ -213,6 +200,7 @@ function parseCSV(text) {
       text[i + 1];
 
 
+    // "" → "
     if (
       char === '"' &&
       insideQuotes &&
@@ -226,6 +214,7 @@ function parseCSV(text) {
     }
 
 
+    // " の開始・終了
     else if (
       char === '"'
     ) {
@@ -236,6 +225,7 @@ function parseCSV(text) {
     }
 
 
+    // カンマ
     else if (
       char === "," &&
       !insideQuotes
@@ -248,6 +238,7 @@ function parseCSV(text) {
     }
 
 
+    // 改行
     else if (
       (
         char === "\n" ||
@@ -285,6 +276,7 @@ function parseCSV(text) {
   }
 
 
+  // 最後のセル
   if (
     cell !== "" ||
     row.length > 0
@@ -303,15 +295,206 @@ function parseCSV(text) {
 
 
 // ========================================
-// DOを引く
+// DOをカードに表示
+// ========================================
+
+function displayDo(doItem) {
+
+  if (!doItem) {
+
+    return;
+
+  }
+
+
+  // 現在のDOとして保存
+  selectedDo =
+    doItem;
+
+
+  // ----------------------------------------
+  // カード番号
+  // ----------------------------------------
+
+  const number =
+    String(selectedDo.id)
+      .padStart(2, "0");
+
+
+  cardNumber.textContent =
+    number;
+
+  cardNumberBottom.textContent =
+    number;
+
+
+  // ----------------------------------------
+  // カードのマーク
+  // ----------------------------------------
+
+  const index =
+    dos.findIndex(
+      item =>
+        item.id === selectedDo.id
+    );
+
+  const suit =
+    suits[
+      (index >= 0 ? index : 0)
+      % suits.length
+    ];
+
+
+  cardSuit.textContent =
+    suit;
+
+  cardSuitBottom.textContent =
+    suit;
+
+
+  // ----------------------------------------
+  // DO
+  // ----------------------------------------
+
+  cardDo.textContent =
+    selectedDo.do;
+
+
+  // ----------------------------------------
+  // カテゴリ
+  // ----------------------------------------
+
+  cardCategory.textContent =
+    selectedDo.category ||
+    "その他";
+
+
+  // ----------------------------------------
+  // 所要時間
+  // ----------------------------------------
+
+  if (cardTime) {
+
+    cardTime.textContent =
+      selectedDo.time ||
+      "---";
+
+  }
+
+
+  // ----------------------------------------
+  // 費用
+  // ----------------------------------------
+
+  if (cardCost) {
+
+    cardCost.textContent =
+      selectedDo.cost ||
+      "---";
+
+  }
+
+
+  // ----------------------------------------
+  // 難易度
+  // ----------------------------------------
+
+  if (cardDifficulty) {
+
+    if (selectedDo.difficulty) {
+
+      const difficulty =
+        Number(
+          selectedDo.difficulty
+        );
+
+      cardDifficulty.textContent =
+        "★".repeat(difficulty);
+
+    } else {
+
+      cardDifficulty.textContent =
+        "---";
+
+    }
+
+  }
+
+
+  // ----------------------------------------
+  // 一人向き
+  // ----------------------------------------
+
+  if (cardSolo) {
+
+    cardSolo.textContent =
+      selectedDo.solo ||
+      "---";
+
+  }
+
+
+  // ----------------------------------------
+  // 場所
+  // ----------------------------------------
+
+  if (cardPlace) {
+
+    cardPlace.textContent =
+      selectedDo.place ||
+      "---";
+
+  }
+
+
+  // ----------------------------------------
+  // 繰り返し
+  // ----------------------------------------
+
+  if (cardRepeat) {
+
+    cardRepeat.textContent =
+      selectedDo.repeat ||
+      "---";
+
+  }
+
+
+  // ----------------------------------------
+  // DONE状態を解除
+  // ----------------------------------------
+
+  card.classList.remove(
+    "is-done"
+  );
+
+
+  // ----------------------------------------
+  // カードを表にする
+  // ----------------------------------------
+
+  card.classList.add(
+    "is-open"
+  );
+
+
+  // ----------------------------------------
+  // DONEボタンを有効化
+  // ----------------------------------------
+
+  doneButton.disabled =
+    false;
+
+}
+
+
+// ========================================
+// DOをランダムに引く
 // ========================================
 
 function drawDo() {
 
   if (dos.length === 0) {
-
-    message.textContent =
-      "DOを読み込んでいます。少し待ってね。";
 
     return;
 
@@ -324,198 +507,82 @@ function drawDo() {
     );
 
 
-  selectedDo =
+  const newDo =
     dos[randomIndex];
 
-  // 引いたDOをブラウザに保存
-localStorage.setItem(
-  "selectedDo",
-  JSON.stringify(selectedDo)
-);
+
+  // DOを表示
+  displayDo(newDo);
 
 
+  // ----------------------------------------
+  // 引いたDOを保存
+  // ----------------------------------------
 
-  // カード番号
-  const number =
-    String(selectedDo.id)
-      .padStart(2, "0");
-
-
-  // カードのマーク
-  const suit =
-    suits[
-      randomIndex % suits.length
-    ];
-
-
-  cardNumber.textContent =
-    number;
-
-  cardNumberBottom.textContent =
-    number;
-
-  cardSuit.textContent =
-    suit;
-
-  cardSuitBottom.textContent =
-    suit;
-
-
-  // DO
-  cardDo.textContent =
-    selectedDo.do;
-
-
-  // カテゴリ
-  cardCategory.textContent =
-    selectedDo.category ||
-    "その他";
-
-
-  // 所要時間
-  cardTime.textContent =
-    selectedDo.time ||
-    "---";
-
-
-  // 費用
-  cardCost.textContent =
-    selectedDo.cost ||
-    "---";
-
-
-  // 難易度
-  if (
-    cardDifficulty &&
-    selectedDo.difficulty
-  ) {
-
-    const difficulty =
-      Number(
-        selectedDo.difficulty
-      );
-
-    cardDifficulty.textContent =
-      "★".repeat(difficulty);
-
-  }
-
-
-  // 一人向き
-  if (cardSolo) {
-
-    cardSolo.textContent =
-      selectedDo.solo ||
-      "---";
-
-  }
-
-
-  // 場所
-  cardPlace.textContent =
-    selectedDo.place ||
-    "---";
-
-
-  // 繰り返し
-  if (cardRepeat) {
-
-    cardRepeat.textContent =
-      selectedDo.repeat ||
-      "---";
-
-  }
-
-
-  // DONE状態を解除
-  card.classList.remove(
-    "is-done"
+  localStorage.setItem(
+    "selectedDo",
+    JSON.stringify(newDo)
   );
 
 
-  // カードを表にする
-  card.classList.add(
-    "is-open"
+  console.log(
+    "保存したDO:",
+    newDo
   );
-
-
-  // DONEボタンを有効化
-  doneButton.disabled =
-    false;
-
-
-  message.textContent =
-    "今日はこれ。やってみよう。";
 
 }
 
+
 // ========================================
-// 保存したDOを復元してカードに表示
+// 保存したDOを復元
 // ========================================
 
 function restoreDo() {
 
   if (!selectedDo) {
+
     return;
+
   }
 
-  const number =
-    String(selectedDo.id)
-      .padStart(2, "0");
 
-  const savedIndex =
-    dos.findIndex(
-      doItem => doItem.id === selectedDo.id
+  // 現在のスプレッドシートに
+  // このDOが存在するか確認
+  const exists =
+    dos.some(
+      item =>
+        item.id === selectedDo.id
     );
 
-  const suit =
-    suits[
-      (savedIndex >= 0 ? savedIndex : 0)
-      % suits.length
-    ];
 
-  cardNumber.textContent =
-    number;
+  // DOが削除されていた場合
+  if (!exists) {
 
-  cardNumberBottom.textContent =
-    number;
+    localStorage.removeItem(
+      "selectedDo"
+    );
 
-  cardSuit.textContent =
-    suit;
+    selectedDo =
+      null;
 
-  cardSuitBottom.textContent =
-    suit;
+    return;
 
-  cardDo.textContent =
-    selectedDo.do;
+  }
 
-  cardCategory.textContent =
-    selectedDo.category ||
-    "その他";
 
-  cardTime.textContent =
-    selectedDo.time ||
-    "---";
-
-  cardCost.textContent =
-    selectedDo.cost ||
-    "---";
-
-  cardPlace.textContent =
-    selectedDo.place ||
-    "---";
-
-  card.classList.remove(
-    "is-done"
+  // カードに表示
+  displayDo(
+    selectedDo
   );
 
-  card.classList.add(
-    "is-open"
+
+  console.log(
+    "保存したDOを復元:",
+    selectedDo
   );
 
-  doneButton.disabled =
-    false;
 }
+
 
 // ========================================
 // DONE
@@ -529,8 +596,19 @@ function completeDo() {
 
   }
 
-    localStorage.removeItem("selectedDo");
 
+  // ----------------------------------------
+  // 保存しているDOを削除
+  // ----------------------------------------
+
+  localStorage.removeItem(
+    "selectedDo"
+  );
+
+
+  // ----------------------------------------
+  // Googleフォーム用URLを作成
+  // ----------------------------------------
 
   const params =
     new URLSearchParams();
@@ -542,14 +620,14 @@ function completeDo() {
   );
 
 
-  // IDを自動入力
+  // ID
   params.set(
     formIdEntry,
     selectedDo.id
   );
 
 
-  // DOを自動入力
+  // DO
   params.set(
     formDoEntry,
     selectedDo.do
@@ -560,7 +638,10 @@ function completeDo() {
     `${formUrl}?${params.toString()}`;
 
 
+  // ----------------------------------------
   // Googleフォームへ移動
+  // ----------------------------------------
+
   window.location.href =
     url;
 
@@ -568,22 +649,36 @@ function completeDo() {
 
 
 // ========================================
-// もう一度引く
+// リセット
 // ========================================
 
-function drawAgain() {
+function resetDo() {
 
-  // 保存しているDOを削除
-  localStorage.removeItem("selectedDo");
+  // 保存したDOを削除
+  localStorage.removeItem(
+    "selectedDo"
+  );
 
-  // 今のDOをリセット
-  selectedDo = null;
+
+  // 現在のDOを削除
+  selectedDo =
+    null;
+
 
   // カードを裏面に戻す
-  card.classList.remove("is-open");
+  card.classList.remove(
+    "is-open"
+  );
 
-  // DONEボタンを無効にする
-  doneButton.disabled = true;
+
+  // DONEボタンを無効化
+  doneButton.disabled =
+    true;
+
+
+  console.log(
+    "DOをリセットしました"
+  );
 
 }
 
@@ -596,9 +691,15 @@ card.addEventListener(
   "click",
   () => {
 
-    // 裏面のとき
+    // --------------------------------------
+    // 裏面なら
+    // → 新しいDOを引く
+    // --------------------------------------
+
     if (
-      !card.classList.contains("is-open")
+      !card.classList.contains(
+        "is-open"
+      )
     ) {
 
       drawDo();
@@ -608,7 +709,11 @@ card.addEventListener(
     }
 
 
-    // 表面のとき
+    // --------------------------------------
+    // 表面なら
+    // → 裏面に戻す
+    // --------------------------------------
+
     card.classList.remove(
       "is-open"
     );
@@ -618,7 +723,7 @@ card.addEventListener(
 
 
 // ========================================
-// ボタンイベント
+// DONEボタン
 // ========================================
 
 doneButton.addEventListener(
@@ -627,24 +732,64 @@ doneButton.addEventListener(
 );
 
 
+// ========================================
+// リセットボタン
+// ========================================
+
 againButton.addEventListener(
   "click",
-  drawAgain
+  resetDo
 );
 
 
 // ========================================
-// ページを開いたらDOを読み込む
+// ページを開いたとき
 // ========================================
-// 前回引いたDOを復元
+
 const savedDo =
-  localStorage.getItem("selectedDo");
+  localStorage.getItem(
+    "selectedDo"
+  );
+
 
 if (savedDo) {
-  selectedDo = JSON.parse(savedDo);
-}
-loadDos().then(() => {
-  if (selectedDo) {
-    restoreDo();
+
+  try {
+
+    selectedDo =
+      JSON.parse(savedDo);
+
+  } catch (error) {
+
+    console.error(
+      "保存データの読み込みに失敗:",
+      error
+    );
+
+    localStorage.removeItem(
+      "selectedDo"
+    );
+
+    selectedDo =
+      null;
+
   }
+
+}
+
+
+// ========================================
+// スプレッドシート読み込み完了後
+// ========================================
+
+loadDos().then(() => {
+
+  // 保存されたDOがあれば復元
+  if (selectedDo) {
+
+    restoreDo();
+
+  }
+
 });
+```
