@@ -1,10 +1,20 @@
-```javascript
 // ========================================
 // GoogleスプレッドシートからDOを読み込む
 // ========================================
 
 const csvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRRzYV7KlATGhOIwnPBDN6mL-JZnsIEK5NV658DIlekZpBcq2cWHgiK5S66p1XRwxUnkmZJSGXGVByQ/pub?gid=1022653759&single=true&output=csv";
+
+
+// ========================================
+// Googleフォームの設定
+// ========================================
+
+const formUrl =
+  "https://docs.google.com/forms/d/e/1FAIpQLSczouMSl_bMRbKQ6wwHiOQbhDUR0oFoFxvVSyl304rd2INIEA/viewform";
+
+const formIdEntry = "entry.1366935255";
+const formDoEntry = "entry.113286324";
 
 
 // ========================================
@@ -68,15 +78,9 @@ const cardRepeat =
 // ========================================
 
 let dos = [];
-
 let selectedDo = null;
 
-const suits = [
-  "♠",
-  "♥",
-  "♣",
-  "♦"
-];
+const suits = ["♠", "♥", "♣", "♦"];
 
 
 // ========================================
@@ -109,19 +113,13 @@ async function loadDos() {
       parseCSV(text);
 
 
-    // ====================================
-    // DOデータを整理
-    // ====================================
-
     dos = rows
       .slice(1)
 
-      // DOが入っている行だけ
       .filter(
         row => row[1]
       )
 
-      // 「有効」がTRUEのものだけ
       .filter(
         row =>
           String(row[9])
@@ -131,31 +129,22 @@ async function loadDos() {
 
       .map(row => ({
 
-        // A列：ID
         id: row[0],
 
-        // B列：DO
         do: row[1],
 
-        // C列：カテゴリ
         category: row[2],
 
-        // D列：所要時間
         time: row[3],
 
-        // E列：費用
         cost: row[4],
 
-        // F列：難易度
         difficulty: row[5],
 
-        // G列：一人向き
         solo: row[6],
 
-        // H列：場所
         place: row[7],
 
-        // I列：繰り返し
         repeat: row[8]
 
       }));
@@ -197,7 +186,7 @@ async function loadDos() {
 
 
 // ========================================
-// CSVを正しく読み込むための関数
+// CSVを正しく読み込む
 // ========================================
 
 function parseCSV(text) {
@@ -217,14 +206,12 @@ function parseCSV(text) {
     i++
   ) {
 
-    const char =
-      text[i];
+    const char = text[i];
 
     const nextChar =
       text[i + 1];
 
 
-    // ダブルクォーテーションが2つ続いた場合
     if (
       char === '"' &&
       insideQuotes &&
@@ -238,7 +225,6 @@ function parseCSV(text) {
     }
 
 
-    // ダブルクォーテーション
     else if (
       char === '"'
     ) {
@@ -249,7 +235,6 @@ function parseCSV(text) {
     }
 
 
-    // カンマ
     else if (
       char === "," &&
       !insideQuotes
@@ -262,7 +247,6 @@ function parseCSV(text) {
     }
 
 
-    // 改行
     else if (
       (
         char === "\n" ||
@@ -291,7 +275,6 @@ function parseCSV(text) {
     }
 
 
-    // その他
     else {
 
       cell += char;
@@ -301,7 +284,6 @@ function parseCSV(text) {
   }
 
 
-  // 最後のセル
   if (
     cell !== "" ||
     row.length > 0
@@ -325,10 +307,7 @@ function parseCSV(text) {
 
 function drawDo() {
 
-  // DOがまだ読み込まれていない
-  if (
-    dos.length === 0
-  ) {
+  if (dos.length === 0) {
 
     message.textContent =
       "DOを読み込んでいます。少し待ってね。";
@@ -338,7 +317,6 @@ function drawDo() {
   }
 
 
-  // ランダムに1件選ぶ
   const randomIndex =
     Math.floor(
       Math.random() * dos.length
@@ -349,19 +327,13 @@ function drawDo() {
     dos[randomIndex];
 
 
-  // ====================================
   // カード番号
-  // ====================================
-
   const number =
     String(selectedDo.id)
       .padStart(2, "0");
 
 
-  // ====================================
   // カードのマーク
-  // ====================================
-
   const suit =
     suits[
       randomIndex % suits.length
@@ -381,45 +353,30 @@ function drawDo() {
     suit;
 
 
-  // ====================================
-  // DO本体
-  // ====================================
-
+  // DO
   cardDo.textContent =
     selectedDo.do;
 
 
-  // ====================================
   // カテゴリ
-  // ====================================
-
   cardCategory.textContent =
     selectedDo.category ||
     "その他";
 
 
-  // ====================================
   // 所要時間
-  // ====================================
-
   cardTime.textContent =
     selectedDo.time ||
     "---";
 
 
-  // ====================================
   // 費用
-  // ====================================
-
   cardCost.textContent =
     selectedDo.cost ||
     "---";
 
 
-  // ====================================
   // 難易度
-  // ====================================
-
   if (
     selectedDo.difficulty
   ) {
@@ -430,9 +387,7 @@ function drawDo() {
       );
 
     cardDifficulty.textContent =
-      "★".repeat(
-        difficulty
-      );
+      "★".repeat(difficulty);
 
   } else {
 
@@ -442,37 +397,25 @@ function drawDo() {
   }
 
 
-  // ====================================
   // 一人向き
-  // ====================================
-
   cardSolo.textContent =
     selectedDo.solo ||
     "---";
 
 
-  // ====================================
   // 場所
-  // ====================================
-
   cardPlace.textContent =
     selectedDo.place ||
     "---";
 
 
-  // ====================================
   // 繰り返し
-  // ====================================
-
   cardRepeat.textContent =
     selectedDo.repeat ||
     "---";
 
 
-  // ====================================
   // カードを開く
-  // ====================================
-
   card.classList.remove(
     "is-done"
   );
@@ -482,10 +425,7 @@ function drawDo() {
   );
 
 
-  // ====================================
   // DONEボタンを有効化
-  // ====================================
-
   doneButton.disabled =
     false;
 
@@ -502,28 +442,45 @@ function drawDo() {
 
 function completeDo() {
 
-  if (
-    !selectedDo
-  ) {
+  if (!selectedDo) {
 
     return;
 
   }
 
 
-  // カードをDONE状態にする
-  card.classList.add(
-    "is-done"
+  // GoogleフォームのURLを作る
+  const params =
+    new URLSearchParams();
+
+
+  params.set(
+    "usp",
+    "pp_url"
   );
 
 
-  // DONEボタンを無効化
-  doneButton.disabled =
-    true;
+  // IDを自動入力
+  params.set(
+    formIdEntry,
+    selectedDo.id
+  );
 
 
-  message.textContent =
-    "今日の一新、達成！ ✨";
+  // DOを自動入力
+  params.set(
+    formDoEntry,
+    selectedDo.do
+  );
+
+
+  const url =
+    `${formUrl}?${params.toString()}`;
+
+
+  // Googleフォームへ移動
+  window.location.href =
+    url;
 
 }
 
@@ -534,9 +491,7 @@ function completeDo() {
 
 function drawAgain() {
 
-  if (
-    dos.length === 0
-  ) {
+  if (dos.length === 0) {
 
     message.textContent =
       "DOを読み込んでいます。少し待ってね。";
@@ -578,4 +533,3 @@ againButton.addEventListener(
 // ========================================
 
 loadDos();
-```
