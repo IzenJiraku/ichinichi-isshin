@@ -557,5 +557,11 @@ againButton.addEventListener(
 // ========================================
 // ページを開いたらDOを読み込む
 // ========================================
+// 前回引いたDOを復元
+const savedDo =
+  localStorage.getItem("selectedDo");
 
+if (savedDo) {
+  selectedDo = JSON.parse(savedDo);
+}
 loadDos();
