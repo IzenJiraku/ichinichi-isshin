@@ -1,43 +1,184 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>一日一新</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 
 <body>
 
   <main class="container">
 
-    <p class="small-title">ICHINICHI ISSHIN</p>
+    <!-- ヘッダー -->
+    <header class="header">
 
-    <h1>一日一新</h1>
+      <p class="small-title">
+        ICHINICHI ISSHIN
+      </p>
 
-    <p class="catchcopy">
-      今日、ちょっとだけ<br>
-      いつもと違うこと。
-    </p>
+      <h1>
+        一日一新
+      </h1>
 
-    <section class="gacha-area">
+      <div class="header-line"></div>
 
-      <p class="question">今日のDOは、なんだろう。</p>
+      <p class="catchcopy">
+        今日、ちょっとだけ<br>
+        いつもと違うこと。
+      </p>
 
-      <div id="result" class="result">
-        <span>🎲</span>
-        <p>ボタンを押して<br>今日のDOを引く</p>
+    </header>
+
+
+    <!-- カードを引くエリア -->
+    <section class="draw-area">
+
+      <p class="question">
+        今日のカードを、1枚。
+      </p>
+
+
+      <!-- カード -->
+      <div id="card" class="card">
+
+        <!-- カード裏面 -->
+        <div id="cardBack" class="card-back">
+
+          <div class="card-back-border">
+
+            <div class="card-symbol">
+              ✦
+            </div>
+
+            <p>
+              一日一新
+            </p>
+
+            <span>
+              今日のDOを引く
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- カード表面 -->
+        <div id="cardFront" class="card-front">
+
+          <div class="card-number top-number">
+            <span id="cardNumber">01</span>
+            <span id="cardSuit">♠</span>
+          </div>
+
+
+          <div class="card-content">
+
+            <span id="cardCategory" class="category">
+              カテゴリ
+            </span>
+
+            <p id="cardDo" class="card-do">
+              DO
+            </p>
+
+          </div>
+
+
+          <!-- カード情報 -->
+          <div class="card-info">
+
+            <div class="info-item">
+              <span class="info-icon">◷</span>
+              <span id="cardTime">---</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-icon">￥</span>
+              <span id="cardCost">---</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-icon">▰</span>
+              <span id="cardDifficulty">---</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-icon">●</span>
+              <span id="cardSolo">---</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-icon">⌖</span>
+              <span id="cardPlace">---</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-icon">↻</span>
+              <span id="cardRepeat">---</span>
+            </div>
+
+          </div>
+
+
+          <div class="card-number bottom-number">
+            <span id="cardNumberBottom">01</span>
+            <span id="cardSuitBottom">♠</span>
+          </div>
+
+        </div>
+
       </div>
 
-      <button id="drawButton" class="draw-button">
-        🎲 DOを引く
-      </button>
+
+      <!-- ボタン -->
+      <div class="button-area">
+
+        <button id="drawButton" class="draw-button">
+          <span>♤</span>
+          DOを引く
+        </button>
+
+
+        <button id="doneButton" class="done-button" disabled>
+          <span>✓</span>
+          DONE！
+        </button>
+
+
+        <button id="againButton" class="again-button">
+          もう一度引く
+        </button>
+
+      </div>
+
+
+      <!-- メッセージ -->
+      <p id="message" class="message"></p>
 
     </section>
 
+
+    <!-- フッター -->
+    <footer>
+
+      <p>
+        小さな「新しい」を、今日ひとつ。
+      </p>
+
+    </footer>
+
   </main>
+
 
   <script src="script.js"></script>
 
 </body>
+
 </html>
