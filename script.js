@@ -449,6 +449,73 @@ localStorage.setItem(
 
 }
 
+// ========================================
+// 保存したDOを復元してカードに表示
+// ========================================
+
+function restoreDo() {
+
+  if (!selectedDo) {
+    return;
+  }
+
+  const number =
+    String(selectedDo.id)
+      .padStart(2, "0");
+
+  const savedIndex =
+    dos.findIndex(
+      doItem => doItem.id === selectedDo.id
+    );
+
+  const suit =
+    suits[
+      (savedIndex >= 0 ? savedIndex : 0)
+      % suits.length
+    ];
+
+  cardNumber.textContent =
+    number;
+
+  cardNumberBottom.textContent =
+    number;
+
+  cardSuit.textContent =
+    suit;
+
+  cardSuitBottom.textContent =
+    suit;
+
+  cardDo.textContent =
+    selectedDo.do;
+
+  cardCategory.textContent =
+    selectedDo.category ||
+    "その他";
+
+  cardTime.textContent =
+    selectedDo.time ||
+    "---";
+
+  cardCost.textContent =
+    selectedDo.cost ||
+    "---";
+
+  cardPlace.textContent =
+    selectedDo.place ||
+    "---";
+
+  card.classList.remove(
+    "is-done"
+  );
+
+  card.classList.add(
+    "is-open"
+  );
+
+  doneButton.disabled =
+    false;
+}
 
 // ========================================
 // DONE
@@ -461,6 +528,8 @@ function completeDo() {
     return;
 
   }
+
+    localStorage.removeItem("selectedDo");
 
 
   const params =
@@ -564,4 +633,8 @@ const savedDo =
 if (savedDo) {
   selectedDo = JSON.parse(savedDo);
 }
-loadDos();
+loadDos().then(() => {
+  if (selectedDo) {
+    restoreDo();
+  }
+});
