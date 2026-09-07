@@ -400,21 +400,16 @@ function drawDo() {
 ======================================== */
 
 function completeDo() {
-
   if (!selectedDo) {
-
     return;
-
   }
 
-
   card.classList.add("is-done");
-
   doneButton.disabled = true;
-
 
   message.textContent =
     "今日の一新、達成！ ✨";
+}
 
 
   /*
