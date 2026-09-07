@@ -95,13 +95,8 @@ async function loadDos() {
       await fetch(csvUrl);
 
     if (!response.ok) {
-
-      throw new Error(
-        `HTTP error: ${response.status}`
-      );
-
-    }
-
+  throw new Error(`HTTP error: ${response.status}`);
+}
     const text =
       await response.text();
 
