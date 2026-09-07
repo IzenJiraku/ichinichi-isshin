@@ -333,17 +333,13 @@ h1 {
 ======================================== */
 
 .card-info {
-  display: grid;
-
-  grid-template-columns: 1fr 1fr;
-
-  gap: 11px 15px;
-
-  padding-top: 18px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 35px;
+  padding-top: 22px;
   border-top: 1px dashed #d7d1c7;
 }
-
 
 .info-item {
   display: flex;
