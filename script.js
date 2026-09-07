@@ -1,4 +1,3 @@
-```javascript
 // ========================================
 // GoogleスプレッドシートからDOを読み込む
 // ========================================
@@ -11,13 +10,9 @@ const csvUrl =
 // Googleフォームの設定
 // ========================================
 
-// 回答用Googleフォーム
 const formUrl =
   "https://docs.google.com/forms/d/e/1FAIpQLSczouMSl_bMRbKQ6wwHiOQbhDUR0oFoFxvVSyl304rd2INIEA/viewform";
 
-// フォーム内の質問番号
-// ID → entry.1366935255
-// DO → entry.113286324
 const formIdEntry = "entry.1366935255";
 const formDoEntry = "entry.113286324";
 
@@ -26,18 +21,30 @@ const formDoEntry = "entry.113286324";
 // HTMLの要素を取得
 // ========================================
 
-const drawButton = document.getElementById("drawButton");
-const doneButton = document.getElementById("doneButton");
-const againButton = document.getElementById("againButton");
+const drawButton =
+  document.getElementById("drawButton");
 
-const card = document.getElementById("card");
-const message = document.getElementById("message");
+const doneButton =
+  document.getElementById("doneButton");
 
-const cardNumber = document.getElementById("cardNumber");
+const againButton =
+  document.getElementById("againButton");
+
+const card =
+  document.getElementById("card");
+
+const message =
+  document.getElementById("message");
+
+const cardNumber =
+  document.getElementById("cardNumber");
+
 const cardNumberBottom =
   document.getElementById("cardNumberBottom");
 
-const cardSuit = document.getElementById("cardSuit");
+const cardSuit =
+  document.getElementById("cardSuit");
+
 const cardSuitBottom =
   document.getElementById("cardSuitBottom");
 
@@ -84,34 +91,35 @@ async function loadDos() {
 
   try {
 
-    const response = await fetch(csvUrl);
+    const response =
+      await fetch(csvUrl);
 
     if (!response.ok) {
+
       throw new Error(
         `HTTP error: ${response.status}`
       );
+
     }
 
-    const text = await response.text();
+    const text =
+      await response.text();
 
     console.log(
       "スプレッドシートのデータ取得成功"
     );
 
-    const rows = parseCSV(text);
+    const rows =
+      parseCSV(text);
 
-
-    // ====================================
-    // DOデータを整理
-    // ====================================
 
     dos = rows
       .slice(1)
 
-      // DOが入っている行だけ
-      .filter(row => row[1])
+      .filter(
+        row => row[1]
+      )
 
-      // 「有効」がTRUEのものだけ
       .filter(
         row =>
           String(row[9])
@@ -121,31 +129,22 @@ async function loadDos() {
 
       .map(row => ({
 
-        // A列：ID
         id: row[0],
 
-        // B列：DO
         do: row[1],
 
-        // C列：カテゴリ
         category: row[2],
 
-        // D列：所要時間
         time: row[3],
 
-        // E列：費用
         cost: row[4],
 
-        // F列：難易度
         difficulty: row[5],
 
-        // G列：一人向き
         solo: row[6],
 
-        // H列：場所
         place: row[7],
 
-        // I列：繰り返し
         repeat: row[8]
 
       }));
@@ -163,9 +162,11 @@ async function loadDos() {
 
 
     if (dos.length === 0) {
+
       throw new Error(
         "DOが0件です"
       );
+
     }
 
 
@@ -178,13 +179,14 @@ async function loadDos() {
 
     message.textContent =
       "DOを読み込めませんでした。ページを更新してみてね。";
+
   }
 
 }
 
 
 // ========================================
-// CSVを正しく読み込むための関数
+// CSVを正しく読み込む
 // ========================================
 
 function parseCSV(text) {
@@ -192,6 +194,7 @@ function parseCSV(text) {
   const rows = [];
 
   let row = [];
+
   let cell = "";
 
   let insideQuotes = false;
@@ -209,8 +212,6 @@ function parseCSV(text) {
       text[i + 1];
 
 
-    // ダブルクォーテーションが
-    // 2つ続いた場合
     if (
       char === '"' &&
       insideQuotes &&
@@ -224,8 +225,9 @@ function parseCSV(text) {
     }
 
 
-    // ダブルクォーテーション
-    else if (char === '"') {
+    else if (
+      char === '"'
+    ) {
 
       insideQuotes =
         !insideQuotes;
@@ -233,7 +235,6 @@ function parseCSV(text) {
     }
 
 
-    // カンマ
     else if (
       char === "," &&
       !insideQuotes
@@ -246,10 +247,11 @@ function parseCSV(text) {
     }
 
 
-    // 改行
     else if (
-      (char === "\n" ||
-        char === "\r") &&
+      (
+        char === "\n" ||
+        char === "\r"
+      ) &&
       !insideQuotes
     ) {
 
@@ -273,7 +275,6 @@ function parseCSV(text) {
     }
 
 
-    // その他
     else {
 
       cell += char;
@@ -283,7 +284,6 @@ function parseCSV(text) {
   }
 
 
-  // 最後のセル
   if (
     cell !== "" ||
     row.length > 0
@@ -307,7 +307,6 @@ function parseCSV(text) {
 
 function drawDo() {
 
-  // DOがまだ読み込まれていない
   if (dos.length === 0) {
 
     message.textContent =
@@ -318,29 +317,23 @@ function drawDo() {
   }
 
 
-  // ランダムに1件選ぶ
   const randomIndex =
     Math.floor(
       Math.random() * dos.length
     );
 
+
   selectedDo =
     dos[randomIndex];
 
 
-  // ====================================
   // カード番号
-  // ====================================
-
   const number =
     String(selectedDo.id)
       .padStart(2, "0");
 
 
-  // ====================================
   // カードのマーク
-  // ====================================
-
   const suit =
     suits[
       randomIndex % suits.length
@@ -360,46 +353,33 @@ function drawDo() {
     suit;
 
 
-  // ====================================
-  // DO本体
-  // ====================================
-
+  // DO
   cardDo.textContent =
     selectedDo.do;
 
 
-  // ====================================
   // カテゴリ
-  // ====================================
-
   cardCategory.textContent =
     selectedDo.category ||
     "その他";
 
 
-  // ====================================
   // 所要時間
-  // ====================================
-
   cardTime.textContent =
     selectedDo.time ||
     "---";
 
 
-  // ====================================
   // 費用
-  // ====================================
-
   cardCost.textContent =
     selectedDo.cost ||
     "---";
 
 
-  // ====================================
   // 難易度
-  // ====================================
-
-  if (selectedDo.difficulty) {
+  if (
+    selectedDo.difficulty
+  ) {
 
     const difficulty =
       Number(
@@ -417,37 +397,25 @@ function drawDo() {
   }
 
 
-  // ====================================
   // 一人向き
-  // ====================================
-
   cardSolo.textContent =
     selectedDo.solo ||
     "---";
 
 
-  // ====================================
   // 場所
-  // ====================================
-
   cardPlace.textContent =
     selectedDo.place ||
     "---";
 
 
-  // ====================================
   // 繰り返し
-  // ====================================
-
   cardRepeat.textContent =
     selectedDo.repeat ||
     "---";
 
 
-  // ====================================
   // カードを開く
-  // ====================================
-
   card.classList.remove(
     "is-done"
   );
@@ -472,39 +440,49 @@ function drawDo() {
 // DONE
 // ========================================
 
-```javascript
 function completeDo() {
 
-  // DOが選ばれていなければ何もしない
   if (!selectedDo) {
+
     return;
+
   }
 
-  // GoogleフォームのURLを作る
-  const params = new URLSearchParams();
 
-  params.set("usp", "pp_url");
+  // GoogleフォームのURLを作る
+  const params =
+    new URLSearchParams();
+
+
+  params.set(
+    "usp",
+    "pp_url"
+  );
+
 
   // IDを自動入力
   params.set(
-    "entry.1366935255",
+    formIdEntry,
     selectedDo.id
   );
 
+
   // DOを自動入力
   params.set(
-    "entry.113286324",
+    formDoEntry,
     selectedDo.do
   );
+
 
   const url =
     `${formUrl}?${params.toString()}`;
 
-  // Googleフォームへ移動
-  window.location.href = url;
-}
-```
 
+  // Googleフォームへ移動
+  window.location.href =
+    url;
+
+}
 
 
 // ========================================
@@ -537,10 +515,12 @@ drawButton.addEventListener(
   drawDo
 );
 
+
 doneButton.addEventListener(
   "click",
   completeDo
 );
+
 
 againButton.addEventListener(
   "click",
@@ -553,4 +533,3 @@ againButton.addEventListener(
 // ========================================
 
 loadDos();
-```
