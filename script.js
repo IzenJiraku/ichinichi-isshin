@@ -472,6 +472,7 @@ function drawDo() {
 // DONE
 // ========================================
 
+```javascript
 function completeDo() {
 
   // DOが選ばれていなければ何もしない
@@ -479,58 +480,31 @@ function completeDo() {
     return;
   }
 
+  // GoogleフォームのURLを作る
+  const params = new URLSearchParams();
 
-  // ====================================
-  // Googleフォーム用URLを作る
-  // ====================================
+  params.set("usp", "pp_url");
 
-  const params =
-    new URLSearchParams({
+  // IDを自動入力
+  params.set(
+    "entry.1366935255",
+    selectedDo.id
+  );
 
-      // フォームの事前入力機能
-      usp: "pp_url",
-
-      // ID
-      [formIdEntry]:
-        selectedDo.id,
-
-      // DO
-      [formDoEntry]:
-        selectedDo.do
-
-    });
-
+  // DOを自動入力
+  params.set(
+    "entry.113286324",
+    selectedDo.do
+  );
 
   const url =
     `${formUrl}?${params.toString()}`;
 
-
-  // ====================================
-  // Googleフォームを新しいタブで開く
-  // ====================================
-
-  window.open(
-    url,
-    "_blank"
-  );
-
-
-  // ====================================
-  // サイト側もDONE状態にする
-  // ====================================
-
-  card.classList.add(
-    "is-done"
-  );
-
-  doneButton.disabled =
-    true;
-
-
-  message.textContent =
-    "今日の一新、達成！ ✨";
-
+  // Googleフォームへ移動
+  window.location.href = url;
 }
+```
+
 
 
 // ========================================
