@@ -6,98 +6,464 @@
   box-sizing: border-box;
 }
 
-
+html,
 body {
   margin: 0;
-  min-height: 100vh;
+  padding: 0;
+  min-height: 100%;
+}
 
-  background: #f5f2ec;
-  color: #252525;
-
+body {
   font-family:
-    "Yu Mincho",
-    "Hiragino Mincho ProN",
-    "Noto Serif JP",
-    serif;
+    "Courier New",
+    "Noto Sans JP",
+    monospace;
+
+  color: #fff;
+
+  background:
+    linear-gradient(
+      #4d91c8 0%,
+      #78b8df 48%,
+      #6b9c52 49%,
+      #416d39 100%
+    );
+
+  overflow-x: hidden;
 }
 
 
 /* ========================================
-   全体
+   ゲーム背景
+======================================== */
+
+.game-background {
+  position: fixed;
+  inset: 0;
+
+  z-index: -10;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #4d94ca 0%,
+      #80c0e5 52%,
+      #78a85a 53%,
+      #426b3b 100%
+    );
+}
+
+
+/* ========================================
+   山
+======================================== */
+
+.mountain {
+  position: absolute;
+
+  bottom: 38%;
+
+  width: 0;
+  height: 0;
+
+  border-left: 180px solid transparent;
+  border-right: 180px solid transparent;
+  border-bottom: 230px solid #47779a;
+}
+
+.mountain-back {
+  left: 5%;
+  transform: scale(1.2);
+
+  opacity: 0.75;
+}
+
+.mountain-front {
+  right: 2%;
+  bottom: 36%;
+
+  transform: scale(1.4);
+
+  border-bottom-color: #3f6d82;
+
+  opacity: 0.8;
+}
+
+
+/* ========================================
+   雲
+======================================== */
+
+.cloud {
+  position: absolute;
+
+  width: 150px;
+  height: 35px;
+
+  background: #e8f1e8;
+
+  border-radius: 30px;
+
+  opacity: 0.8;
+
+  box-shadow:
+    30px -15px 0 #e8f1e8,
+    70px -8px 0 #e8f1e8;
+}
+
+.cloud-1 {
+  top: 10%;
+  left: 58%;
+}
+
+.cloud-2 {
+  top: 20%;
+  left: 10%;
+
+  transform: scale(0.7);
+}
+
+
+/* ========================================
+   城
+======================================== */
+
+.castle {
+  position: absolute;
+
+  bottom: 39%;
+  right: 20%;
+
+  width: 150px;
+  height: 130px;
+}
+
+.castle-main {
+  position: absolute;
+
+  bottom: 0;
+  left: 30px;
+
+  width: 90px;
+  height: 90px;
+
+  background: #d7c7a0;
+
+  border: 4px solid #594938;
+}
+
+.castle-tower {
+  position: absolute;
+
+  bottom: 0;
+
+  width: 38px;
+  height: 110px;
+
+  background: #d7c7a0;
+
+  border: 4px solid #594938;
+}
+
+.tower-1 {
+  left: 5px;
+}
+
+.tower-2 {
+  right: 5px;
+}
+
+.castle-tower::before {
+  content: "";
+
+  position: absolute;
+
+  top: -30px;
+  left: -7px;
+
+  width: 42px;
+  height: 42px;
+
+  background: #a45d4d;
+
+  transform:
+    rotate(45deg);
+
+}
+
+
+/* ========================================
+   森
+======================================== */
+
+.forest {
+  position: absolute;
+
+  bottom: 0;
+
+  width: 35%;
+  height: 30%;
+}
+
+.forest-left {
+  left: -5%;
+
+  background:
+    radial-gradient(
+      circle at 20% 70%,
+      #285c35 0 30px,
+      transparent 31px
+    ),
+    radial-gradient(
+      circle at 45% 55%,
+      #356d3c 0 45px,
+      transparent 46px
+    ),
+    radial-gradient(
+      circle at 70% 75%,
+      #24552f 0 40px,
+      transparent 41px
+    );
+}
+
+.forest-right {
+  right: -5%;
+
+  background:
+    radial-gradient(
+      circle at 20% 60%,
+      #2d6235 0 40px,
+      transparent 41px
+    ),
+    radial-gradient(
+      circle at 55% 75%,
+      #24552f 0 50px,
+      transparent 51px
+    ),
+    radial-gradient(
+      circle at 80% 55%,
+      #386e3c 0 40px,
+      transparent 41px
+    );
+}
+
+
+/* ========================================
+   メイン
 ======================================== */
 
 .container {
-  width: min(1100px, 92%);
+  width: 100%;
+  max-width: 900px;
+
   margin: 0 auto;
 
-  padding: 100px 20px 70px;
+  padding:
+    35px 25px 40px;
 }
+
 
 /* ========================================
    ヘッダー
 ======================================== */
 
 .header {
-  text-align: center;
-}
+  display: flex;
 
+  justify-content: space-between;
+  align-items: flex-start;
 
-.small-title {
-  margin: 0 0 14px;
+  gap: 25px;
 
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-  letter-spacing: 5px;
-
-  color: #888;
-}
-
-
-h1 {
-  margin: 0;
-
-  font-size: 46px;
-  font-weight: normal;
-  letter-spacing: 10px;
-}
-
-
-.header-line {
-  width: 45px;
-  height: 1px;
-
-  background: #555;
-
-  margin: 24px auto;
-}
-
-
-.catchcopy {
-  margin: 0;
-
-  font-size: 17px;
-  line-height: 2;
-
-  color: #666;
+  margin-bottom: 25px;
 }
 
 
 /* ========================================
-   カードエリア
+   QUESTロゴ
 ======================================== */
 
-.draw-area {
-  margin-top: 55px;
+.quest-logo {
+  position: relative;
 
-  text-align: center;
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  min-width: 330px;
+
+  padding:
+    14px 25px;
+
+  background:
+    linear-gradient(
+      #80572e,
+      #5a351d
+    );
+
+  border:
+    5px solid #3d2617;
+
+  border-radius: 10px;
+
+  box-shadow:
+    inset 0 0 0 3px #a97742,
+    0 6px 0 #28180e,
+    0 10px 15px rgba(0,0,0,0.35);
+
+  transform:
+    rotate(-0.5deg);
+}
+
+.quest-logo::before,
+.quest-logo::after {
+  content: "";
+
+  position: absolute;
+
+  width: 12px;
+  height: 12px;
+
+  background: #b8a47d;
+
+  border: 3px solid #463421;
+
+  border-radius: 50%;
+}
+
+.quest-logo::before {
+  top: 7px;
+  left: 9px;
+}
+
+.quest-logo::after {
+  bottom: 7px;
+  right: 9px;
 }
 
 
-.question {
-  margin: 0 0 25px;
+.logo-sword {
+  font-size: 42px;
+
+  filter:
+    drop-shadow(
+      3px 3px 0 #2e1b10
+    );
+}
+
+.quest-title {
+  font-size: 46px;
+
+  font-weight: 900;
+
+  line-height: 0.95;
+
+  letter-spacing: 3px;
+
+  color: #fff0c7;
+
+  text-shadow:
+    3px 3px 0 #402412,
+    5px 5px 0 #211208;
+}
+
+.quest-subtitle {
+  margin-top: 7px;
+
+  font-size: 16px;
+
+  color: #f8df9d;
+
+  font-weight: bold;
+}
+
+
+/* ========================================
+   右上メッセージ
+======================================== */
+
+.header-message {
+  position: relative;
+
+  display: flex;
+
+  flex-direction: column;
+
+  padding:
+    16px 22px;
+
+  min-width: 245px;
+
+  color: #51351e;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f4dfaa,
+      #e8c982
+    );
+
+  border:
+    4px solid #67451f;
+
+  box-shadow:
+    4px 5px 0 #2c1b10;
 
   font-size: 14px;
-  color: #888;
+
+  font-weight: bold;
+
+  line-height: 1.7;
+
+  transform:
+    rotate(1deg);
+}
+
+.header-message::before {
+  content: "";
+
+  position: absolute;
+
+  top: -9px;
+  left: 50%;
+
+  width: 18px;
+  height: 18px;
+
+  background: #594127;
+
+  border-radius: 50%;
+}
+
+
+/* ========================================
+   クエストエリア
+======================================== */
+
+.draw-area {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.question {
+  margin:
+    0 0 10px;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  color: #fff4d1;
+
+  text-shadow:
+    2px 2px 0 #294429;
 }
 
 
@@ -108,30 +474,41 @@ h1 {
 .card {
   position: relative;
 
-  width: 340px;
-  height: 480px;
+  width: min(100%, 700px);
 
-  margin: 0 auto;
+  height: 520px;
 
   perspective: 1200px;
+
+  cursor: default;
 }
 
 
-/* 共通 */
+/* ========================================
+   カード共通
+======================================== */
+
 .card-back,
 .card-front {
   position: absolute;
 
+  inset: 0;
+
   width: 100%;
   height: 100%;
 
-  border-radius: 18px;
+  border-radius: 14px;
 
   backface-visibility: hidden;
 
   transition:
-    transform 0.8s cubic-bezier(.2,.7,.2,1),
-    box-shadow 0.3s ease;
+    transform 0.7s
+    cubic-bezier(
+      .2,
+      .7,
+      .2,
+      1
+    );
 }
 
 
@@ -142,71 +519,87 @@ h1 {
 .card-back {
   display: flex;
 
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
-  background: #c5a24a;
+  background:
+    linear-gradient(
+      135deg,
+      #86582d,
+      #5b351c
+    );
+
+  border:
+    7px solid #3c2414;
 
   box-shadow:
-    0 18px 35px rgba(0, 0, 0, 0.12);
+    inset 0 0 0 4px #b27a40,
+    inset 0 0 0 10px #6c401f,
+    0 9px 0 #26150c,
+    0 15px 25px rgba(0,0,0,0.4);
 
-  transform: rotateY(0deg);
+  transform:
+    rotateY(0deg);
 }
 
-
-.card-back-border {
-  width: calc(100% - 24px);
-  height: calc(100% - 24px);
-
-  border: 1px solid rgba(255,255,255,0.7);
-  border-radius: 12px;
+.card-back-inner {
+  width: 85%;
+  height: 82%;
 
   display: flex;
+
   flex-direction: column;
 
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
-  color: white;
+  border:
+    4px solid #b8874d;
 
-  position: relative;
+  box-shadow:
+    inset 0 0 0 3px #4a2a17;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.03) 0px,
+      rgba(255,255,255,0.03) 2px,
+      transparent 2px,
+      transparent 7px
+    );
 }
 
-
-.card-back-border::before {
-  content: "";
-
-  position: absolute;
-
-  inset: 12px;
-
-  border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 8px;
-}
-
-
-.card-symbol {
+.back-symbol {
   font-size: 65px;
 
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
+.back-title {
+  font-size: 48px;
 
-.card-back p {
-  margin: 0;
+  font-weight: 900;
 
-  font-size: 22px;
-  letter-spacing: 5px;
+  letter-spacing: 4px;
+
+  color: #f7df9d;
+
+  text-shadow:
+    4px 4px 0 #3c2111;
 }
 
-
-.card-back span {
+.back-subtitle {
   margin-top: 12px;
 
-  font-size: 11px;
-  letter-spacing: 2px;
+  font-size: 18px;
 
-  opacity: 0.7;
+  color: #f8e6bd;
+}
+
+.back-decoration {
+  margin-top: 20px;
+
+  color: #c49455;
 }
 
 
@@ -215,154 +608,358 @@ h1 {
 ======================================== */
 
 .card-front {
-  padding: 24px;
+  padding: 13px;
 
-  background: #fffdf8;
+  background:
+    #68401f;
 
-  border: 1px solid #e8e3da;
+  border:
+    6px solid #382215;
 
   box-shadow:
-    0 18px 35px rgba(0, 0, 0, 0.12);
+    inset 0 0 0 3px #ae7940,
+    0 9px 0 #25150b,
+    0 15px 25px rgba(0,0,0,0.4);
 
-  transform: rotateY(180deg);
-
-  display: flex;
-  flex-direction: column;
-}
-
-
-/* カードを開いた状態 */
-
-.card.is-open .card-back {
-  transform: rotateY(-180deg);
-}
-
-
-.card.is-open .card-front {
-  transform: rotateY(0deg);
+  transform:
+    rotateY(180deg);
 }
 
 
 /* ========================================
-   カード番号
+   カードが開いた状態
 ======================================== */
 
+.card.is-open .card-back {
+  transform:
+    rotateY(-180deg);
+}
+
+.card.is-open .card-front {
+  transform:
+    rotateY(0deg);
+}
+
+
+/* ========================================
+   木の板
+======================================== */
+
+.wood-board {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  padding:
+    25px 35px;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #75451f 0px,
+      #75451f 7px,
+      #804d25 8px,
+      #69401e 13px
+    );
+
+  border:
+    4px solid #432816;
+
+  box-shadow:
+    inset 0 0 0 3px #9b6938;
+
+  border-radius: 8px;
+}
+
+
+/* ========================================
+   ナンバー
+======================================== */
+
+.card-number-area {
+  position: absolute;
+
+  top: 18px;
+  left: 18px;
+
+  width: 75px;
+
+  padding: 8px;
+
+  text-align: center;
+
+  color: #4a2d17;
+
+  background:
+    linear-gradient(
+      #f1dba6,
+      #d9b96e
+    );
+
+  border:
+    3px solid #63411e;
+
+  box-shadow:
+    3px 3px 0 #321c0e;
+
+  transform:
+    rotate(-2deg);
+}
+
+.number-label {
+  display: block;
+
+  font-size: 12px;
+
+  font-weight: bold;
+}
+
 .card-number {
-  display: flex;
-  flex-direction: column;
+  display: block;
 
-  align-items: flex-start;
+  font-size: 28px;
 
-  font-family: Georgia, serif;
+  font-weight: 900;
+}
+
+
+/* ========================================
+   マーク
+======================================== */
+
+.card-suit {
+  position: absolute;
+
+  top: 30px;
+  left: 105px;
+
+  color: #f4dfaa;
+
+  font-size: 28px;
+}
+
+
+/* ========================================
+   今日のクエスト
+======================================== */
+
+.quest-board-title {
+  position: relative;
+
+  width: fit-content;
+
+  margin:
+    0 auto 18px;
+
+  padding:
+    9px 45px;
+
+  color: #f6e1a8;
+
+  background:
+    linear-gradient(
+      #68401f,
+      #4d2d17
+    );
+
+  border:
+    3px solid #3b2212;
+
+  box-shadow:
+    inset 0 0 0 2px #9c6935,
+    3px 4px 0 #301a0d;
 
   font-size: 20px;
 
-  line-height: 1;
-}
-
-
-.card-number span:last-child {
-  margin-top: 3px;
-}
-
-
-.top-number {
-  color: #314967;
-}
-
-
-.bottom-number {
-  align-items: flex-end;
-
-  margin-top: auto;
-
-  color: #314967;
-
-  transform: rotate(180deg);
+  font-weight: bold;
 }
 
 
 /* ========================================
-   カード中央
+   羊皮紙
 ======================================== */
 
-.card-content {
-  flex: 1;
+.parchment {
+  position: relative;
 
-  display: flex;
-  flex-direction: column;
+  height: calc(100% - 65px);
 
-  justify-content: center;
-  align-items: center;
+  padding:
+    28px 35px;
 
-  padding: 20px 10px;
+  background:
+    linear-gradient(
+      135deg,
+      #f5e4b7,
+      #e5c987
+    );
+
+  border:
+    4px solid #6c471f;
+
+  box-shadow:
+    inset 0 0 20px rgba(91,55,18,0.18);
+
+  color: #4b2c16;
 }
 
+
+/* ========================================
+   カテゴリ
+======================================== */
+
+.category-wrapper {
+  text-align: center;
+}
 
 .category {
   display: inline-block;
 
-  padding: 5px 16px;
+  padding:
+    4px 15px;
 
-  border-radius: 20px;
+  background:
+    #714723;
 
-  background: #eeeae3;
+  color: #f7e4ae;
 
-  color: #777;
+  border:
+    2px solid #4a2b15;
 
-  font-size: 11px;
+  font-size: 12px;
 
-  letter-spacing: 2px;
-}
-
-
-.card-do {
-  margin: 25px 0 0;
-
-  max-width: 280px;
-
-  font-size: 26px;
-  line-height: 1.8;
-
-  text-align: center;
+  font-weight: bold;
 }
 
 
 /* ========================================
-   カード情報
+   DO
+======================================== */
+
+.card-do {
+  margin:
+    20px auto 22px;
+
+  max-width: 580px;
+
+  text-align: center;
+
+  font-size: clamp(
+    22px,
+    4vw,
+    32px
+  );
+
+  font-weight: 900;
+
+  line-height: 1.5;
+
+  color: #4a2914;
+}
+
+
+/* ========================================
+   区切り
+======================================== */
+
+.parchment-line {
+  height: 3px;
+
+  margin:
+    0 auto 18px;
+
+  max-width: 580px;
+
+  background:
+    #876037;
+}
+
+
+/* ========================================
+   情報
 ======================================== */
 
 .card-info {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 35px;
-  padding-top: 22px;
-  border-top: 1px dashed #d7d1c7;
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 0;
+
+  max-width: 600px;
+
+  margin: 0 auto;
 }
 
 .info-item {
   display: flex;
+
   align-items: center;
 
-  gap: 8px;
+  gap: 9px;
 
-  font-size: 11px;
+  min-height: 58px;
 
-  color: #666;
+  padding:
+    8px 12px;
 
-  text-align: left;
+  border-right:
+    2px solid #a17a46;
+
+  font-weight: bold;
+}
+
+.info-item:nth-child(3),
+.info-item:nth-child(6) {
+  border-right: none;
+}
+
+.info-icon {
+  font-size: 22px;
+
+  min-width: 25px;
+
+  text-align: center;
+}
+
+.info-item small {
+  display: block;
+
+  font-size: 10px;
+
+  margin-bottom: 2px;
+
+  opacity: 0.75;
+}
+
+.info-item span:last-child {
+  display: block;
+
+  font-size: 13px;
 }
 
 
-.info-icon {
-  width: 18px;
+/* ========================================
+   下部番号
+======================================== */
 
-  font-family: Arial, sans-serif;
+.card-number-bottom {
+  position: absolute;
 
-  color: #777;
+  right: 18px;
+  bottom: 13px;
 
-  text-align: center;
+  display: flex;
+
+  gap: 7px;
+
+  font-size: 14px;
+
+  font-weight: bold;
+
+  color: #d9bc80;
 }
 
 
@@ -371,132 +968,163 @@ h1 {
 ======================================== */
 
 .button-area {
-  margin-top: 35px;
+  display: grid;
 
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
+  grid-template-columns:
+    1fr 1fr;
 
   gap: 15px;
+
+  width: min(100%, 700px);
+
+  margin-top: 25px;
 }
 
 
-button {
-  font-family: inherit;
+/* 共通 */
+
+.button-area button {
+  min-height: 62px;
+
+  padding:
+    10px 20px;
+
+  border-radius: 9px;
+
+  font-family:
+    "Courier New",
+    "Noto Sans JP",
+    monospace;
+
+  font-size: 18px;
+
+  font-weight: 900;
 
   cursor: pointer;
 
   transition:
-    transform 0.2s ease,
-    opacity 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.12s,
+    filter 0.12s;
+}
+
+.button-area button:hover {
+  filter: brightness(1.12);
+}
+
+.button-area button:active {
+  transform:
+    translateY(4px);
 }
 
 
-/* DOを引く */
+/* ========================================
+   クエストを引く
+======================================== */
 
 .draw-button {
-  border: none;
+  grid-column:
+    1 / -1;
 
-  min-width: 240px;
+  color: #fff1c6;
 
-  padding: 17px 35px;
+  background:
+    linear-gradient(
+      #754a26,
+      #4e2d18
+    );
 
-  border-radius: 50px;
-
-  background: #314967;
-  color: white;
-
-  font-size: 16px;
-
-  letter-spacing: 2px;
-
-  box-shadow:
-    0 8px 18px rgba(49, 73, 103, 0.2);
-}
-
-
-.draw-button span {
-  margin-right: 8px;
-
-  font-size: 22px;
-}
-
-
-.draw-button:hover {
-  transform: translateY(-2px);
+  border:
+    4px solid #321c0e;
 
   box-shadow:
-    0 12px 22px rgba(49, 73, 103, 0.25);
+    inset 0 0 0 2px #a8753c,
+    0 5px 0 #25140b;
 }
 
 
-/* DONE */
+/* ========================================
+   CLEAR
+======================================== */
 
 .done-button {
-  border: none;
+  color: #fff5d2;
 
-  min-width: 240px;
+  background:
+    linear-gradient(
+      #66745a,
+      #39452f
+    );
 
-  padding: 16px 35px;
-
-  border-radius: 50px;
-
-  background: #c95b5b;
-  color: white;
-
-  font-size: 16px;
-
-  letter-spacing: 2px;
+  border:
+    4px solid #26301f;
 
   box-shadow:
-    0 8px 18px rgba(201, 91, 91, 0.18);
+    inset 0 0 0 2px #a3aa82,
+    0 5px 0 #1b2116;
 }
 
-
-.done-button span {
-  margin-right: 8px;
-
-  font-size: 20px;
+.done-button:not(:disabled) {
+  animation:
+    clear-pulse 1.8s
+    infinite;
 }
-
-
-.done-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-}
-
 
 .done-button:disabled {
-  opacity: 0.35;
+  opacity: 0.45;
 
-  cursor: default;
+  cursor: not-allowed;
 
-  box-shadow: none;
+  animation: none;
 }
 
 
-/* もう一度 */
+/* ========================================
+   もう一度引く
+======================================== */
 
 .again-button {
-  border: none;
+  color: #fff0c4;
 
-  background: transparent;
+  background:
+    linear-gradient(
+      #80552d,
+      #513019
+    );
 
-  padding: 5px 10px;
+  border:
+    4px solid #382012;
 
-  color: #777;
-
-  font-size: 13px;
-
-  text-decoration: underline;
-
-  text-underline-offset: 4px;
+  box-shadow:
+    inset 0 0 0 2px #ad7a40,
+    0 5px 0 #24140a;
 }
 
 
-.again-button:hover {
-  color: #222;
+/* ========================================
+   CLEAR演出
+======================================== */
+
+@keyframes clear-pulse {
+
+  0%,
+  100% {
+    box-shadow:
+      inset 0 0 0 2px #a3aa82,
+      0 5px 0 #1b2116;
+  }
+
+  50% {
+    box-shadow:
+      inset 0 0 0 2px #e5e9bb,
+      0 5px 0 #1b2116,
+      0 0 18px rgba(
+        236,
+        241,
+        180,
+        0.5
+      );
+  }
+
 }
 
 
@@ -505,13 +1133,34 @@ button {
 ======================================== */
 
 .message {
-  min-height: 24px;
+  min-height: 28px;
 
-  margin: 20px 0 0;
+  margin-top: 17px;
 
-  font-size: 13px;
+  padding:
+    9px 20px;
 
-  color: #777;
+  color: #fff0c2;
+
+  background:
+    rgba(
+      24,
+      31,
+      25,
+      0.8
+    );
+
+  border:
+    3px solid #bd9a58;
+
+  box-shadow:
+    3px 3px 0 #26180d;
+
+  font-size: 14px;
+
+  font-weight: bold;
+
+  text-align: center;
 }
 
 
@@ -519,44 +1168,40 @@ button {
    DONE状態
 ======================================== */
 
-.card.is-done .card-front {
-  background: #f2eee7;
-}
+.card.is-done .parchment::after {
 
-
-.card.is-done .card-do {
-  text-decoration: line-through;
-
-  opacity: 0.55;
-}
-
-
-.card.is-done::after {
-  content: "DONE";
+  content:
+    "QUEST CLEAR!";
 
   position: absolute;
 
-  top: 50%;
-  left: 50%;
+  inset: 0;
 
-  transform:
-    translate(-50%, -50%)
-    rotate(-12deg);
+  display: flex;
 
-  padding: 8px 20px;
+  align-items: center;
+  justify-content: center;
 
-  border: 2px solid #c95b5b;
+  background:
+    rgba(
+      30,
+      40,
+      25,
+      0.78
+    );
 
-  color: #c95b5b;
+  color: #f5e7ad;
 
-  font-family: Arial, sans-serif;
+  font-size: 38px;
 
-  font-size: 22px;
-  font-weight: bold;
+  font-weight: 900;
 
-  letter-spacing: 4px;
+  letter-spacing: 2px;
 
-  pointer-events: none;
+  text-shadow:
+    3px 3px 0 #2a1a0e;
+
+  border-radius: 2px;
 }
 
 
@@ -565,74 +1210,234 @@ button {
 ======================================== */
 
 footer {
-  margin-top: 80px;
+  margin-top: 30px;
 
   text-align: center;
-}
 
+  color: #f1ddb0;
 
-footer p {
-  margin: 0;
+  font-size: 12px;
 
-  font-size: 11px;
-
-  color: #aaa;
-
-  letter-spacing: 2px;
+  text-shadow:
+    2px 2px 0 #294229;
 }
 
 
 /* ========================================
-   スマートフォン
+   スマホ
 ======================================== */
 
-@media (max-width: 600px) {
+@media (
+  max-width: 650px
+) {
 
   .container {
-    padding-top: 45px;
+    padding:
+      20px 12px 30px;
   }
 
 
-  h1 {
-    font-size: 37px;
-    letter-spacing: 6px;
+  .header {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 15px;
   }
 
 
-  .catchcopy {
-    font-size: 15px;
+  .quest-logo {
+    min-width: 0;
+
+    width: 100%;
+
+    padding:
+      12px 15px;
   }
 
 
-  .draw-area {
-    margin-top: 45px;
+  .quest-title {
+    font-size: 34px;
+  }
+
+
+  .quest-subtitle {
+    font-size: 12px;
+  }
+
+
+  .logo-sword {
+    font-size: 32px;
+  }
+
+
+  .header-message {
+    width: 80%;
+
+    align-self: flex-end;
+
+    min-width: 0;
+
+    font-size: 12px;
   }
 
 
   .card {
-    width: min(320px, 88vw);
-    height: min(450px, 125vw);
+    height: 590px;
   }
 
 
-  .card-do {
+  .wood-board {
+    padding:
+      22px 15px;
+  }
+
+
+  .parchment {
+    padding:
+      27px 12px;
+  }
+
+
+  .quest-board-title {
+    font-size: 16px;
+
+    padding:
+      8px 28px;
+  }
+
+
+  .card-number-area {
+    width: 58px;
+
+    top: 12px;
+    left: 10px;
+
+    padding: 5px;
+  }
+
+
+  .card-number {
+    font-size: 23px;
+  }
+
+
+  .card-suit {
+    left: 78px;
+
+    top: 25px;
+
     font-size: 22px;
   }
 
 
+  .card-do {
+    font-size: 21px;
+
+    margin-top: 18px;
+  }
+
+
   .card-info {
-    gap: 9px 8px;
+    grid-template-columns:
+      repeat(2, 1fr);
   }
 
 
   .info-item {
-    font-size: 10px;
+    border-right:
+      1px solid #a17a46;
+
+    border-bottom:
+      1px solid #a17a46;
+
+    padding:
+      8px 7px;
   }
 
 
-  .draw-button,
-  .done-button {
-    min-width: 220px;
+  .info-item:nth-child(2n) {
+    border-right: none;
+  }
+
+
+  .info-item:nth-child(5),
+  .info-item:nth-child(6) {
+    border-bottom: none;
+  }
+
+
+  .info-item span:last-child {
+    font-size: 11px;
+  }
+
+
+  .button-area {
+    grid-template-columns:
+      1fr 1fr;
+
+    gap: 10px;
+  }
+
+
+  .draw-button {
+    grid-column:
+      1 / -1;
+  }
+
+
+  .button-area button {
+    min-height: 58px;
+
+    font-size: 15px;
+
+    padding:
+      8px 10px;
+  }
+
+
+  .message {
+    font-size: 12px;
+  }
+
+}
+
+
+/* ========================================
+   さらに小さいスマホ
+======================================== */
+
+@media (
+  max-width: 400px
+) {
+
+  .card {
+    height: 620px;
+  }
+
+
+  .quest-title {
+    font-size: 29px;
+  }
+
+
+  .quest-board-title {
+    font-size: 14px;
+  }
+
+
+  .card-do {
+    font-size: 19px;
+  }
+
+
+  .info-item {
+    gap: 5px;
+  }
+
+
+  .info-icon {
+    font-size: 18px;
   }
 
 }
